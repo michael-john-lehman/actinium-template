@@ -1,5 +1,6 @@
 # Folders
 /.tmp
 /target
+/static
 # Files
 .env

@@ -4,7 +4,7 @@ use clap::Parser;
 #[command(version, about, long_about = None)]
 struct Args {
     /// Host address to bind the server to
-    #[arg(long, default_value_t = String::from("127.0.0.1"))]
+    #[arg(long, default_value_t = String::from("0.0.0.0"))]
     host: String,
     
     /// Port number to listen on

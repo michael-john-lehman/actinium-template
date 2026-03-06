@@ -1,0 +1,51 @@
+services:
+  dev-server:
+    build:
+      dockerfile: ./dev.dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - RUST_LOG=DEBUG
+      - PG_MAX_CONNECTIONS=5
+      - PG_HOST=db
+      - PG_PORT=5432
+      - PG_USER=dev-user
+      - PG_PASS=no-password
+      - PG_DATA=dev
+      - REDIS_URI=redis://redis:6378/
+      - JWT_SECRET=a04cc8a961468013414aa5b3f8a9ea0a46d6ec8a8d830b5cd98939eeeee24d736ab677666d4b967ce572330da5c68019ed07967c05c42b1c4201cc2fc8fb04e2
+      - JWT_ALGORITHM=HS256
+      - JWT_ISSUER=some.issuer
+      - JWT_AUDIENCE=some.aud
+      - JWT_EXPIRES=1800
+    volumes:
+      - dev-static:/static
+    depends_on:
+      db:
+        condition: service_started
+      redis:
+        condition: service_started
+    expose:
+      - "8000"
+      
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: dev-user
+      POSTGRES_PASSWORD: no-password
+      POSTGRES_DB: dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    container_name: mem-redis
+    ports:
+      - "6378:6379"
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  dev-static:
