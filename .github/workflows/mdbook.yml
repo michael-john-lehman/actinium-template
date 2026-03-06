@@ -37,13 +37,27 @@ jobs:
           curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
           rustup update
           cargo install --version ${MDBOOK_VERSION} mdbook
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm' # or 'yarn' if you use yarn
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
+      - name: Install NPM dependencies
+        run: |
+          cd frontend
+          npm ci
       - name: Build with mdBook
         run: |
           cd docs
           mdbook build
+      - name: Build with Storybook
+        run: |
+          cd frontend
+          npm run build-storybook
+          mv storybook-static ../docs/book/storybook-static
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -1,8 +1,37 @@
-# Driver Interfaces
+# Outbound
 
-### Example 
+A driver that provides access to external resources through a standardized interface.
 
-Note: **IExampleTransaction** is a useful pattern to create another layer of indirection.
+Drivers act as bridges between the system and external services, databases, or APIs.
+They encapsulate the logic for connecting to, authenticating with, and operating on
+external resources while providing a consistent interface for the rest of the application.
+
+**Requirements**
+
+Implementations of this trait must:
+* Be thread-safe (`Send + Sync`)
+* Have a static lifetime (`'static`)
+* Provide a unique name that identifies the driver
+* Implement all *interfaces*
+
+Note: we borrow the 'Driver' terminology because it sounds cool
+
+```rust,noplayground
+
+pub trait Driver: Send + Sync + 'static
+    + interfaces::example::IExample
+{
+
+    /// Returns the unique identifier for this driver.
+    fn name(&self) -> &'static str;
+
+}
+
+```
+
+## Interface Example
+
+Note: **IExampleTransaction** is a useful pattern to create another layer of indirection, which is also useful for edge cases such as fallback logic if connection is dropped etc
 
 ```rust,noplayground
 use futures_util::future::LocalBoxFuture;

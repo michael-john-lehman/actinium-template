@@ -3,6 +3,8 @@
     <p><i>Full-stack development with Rust and Svelte</i></p>
 </div>
 
+Generated docs
+
 - **Backend**: Rust with Actix-web for high-performance async API endpoints
 - **Frontend**: Svelte, or any static compatible frontend framework, compiled to static assets (HTML, JS, CSS)
 - **Build Process**: Frontend generates static files during build time, served alongside Rust API
