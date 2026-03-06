@@ -1,0 +1,43 @@
+[package]
+name = "backend"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+actix-web = { version = "4", features = ["rustls-0_23"]}
+actix-files = { version = "0.6" }
+actix-cors = { version = "0.7.1" }
+actix-multipart = { version = "0.7.2" }
+
+futures = "0.3"
+futures-util = "0.3"
+
+sqlx = { version = "0.8", features = [ "runtime-tokio", "tls-rustls-ring-webpki", "postgres" ] }
+
+redis = { version = "1.0.3", features = [ "uuid", "tokio-comp", "tokio-rustls-comp", "tls-rustls-webpki-roots" ]}
+
+# Async Runtime
+tokio = { version = "1", features = [ "full" ] }
+
+# Builder Macro
+bon = "3.9.0"
+
+# TLS 
+rustls = "0.23"
+rustls-pemfile = "2"
+
+# Datetype: Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# JWT Tokens
+jsonwebtoken = { version = "10", features = ["aws_lc_rs"] }
+
+# Serialization & Deserialzation
+serde_json = "1.0"
+serde = { version = "1", features = ["derive"] }
+
+# Error Macro
+thiserror = "2.0"
+
+# Logging 
+log = "0.4"

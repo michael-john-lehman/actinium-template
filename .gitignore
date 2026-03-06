@@ -1,1 +1,5 @@
+# Folders
+/.tmp
 /target
+# Files
+.env
