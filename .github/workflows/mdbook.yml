@@ -42,20 +42,21 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm' # or 'yarn' if you use yarn
+          cache-dependency-path: './frontend/package-lock.json'
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
       - name: Install NPM dependencies
+        working-directory: ./frontend
         run: |
-          cd frontend
           npm ci
       - name: Build with mdBook
         run: |
           cd docs
           mdbook build
       - name: Build with Storybook
+        working-directory: ./frontend
         run: |
-          cd frontend
           npm run build-storybook
           mv storybook-static ../docs/book/storybook-static
       - name: Upload artifact
