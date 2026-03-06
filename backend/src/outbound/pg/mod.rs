@@ -4,10 +4,8 @@ use sqlx::Postgres;
 use sqlx::postgres::PgConnectOptions;
 use sqlx::postgres::PgPoolOptions;
 
-pub mod example;
-
 #[derive(Clone, Debug)]
-pub(crate) struct PgDriver {
+pub struct PgDriver {
     #[allow(unused)]
     pub(crate) pg: Pool<Postgres>,
     #[allow(unused)]
@@ -35,4 +33,10 @@ impl PgDriver {
 
 }
 
-impl super::Repository for PgDriver {}
+impl super::Driver for PgDriver {
+
+    fn name(&self) -> &'static str {
+        "pg"
+    }
+
+}

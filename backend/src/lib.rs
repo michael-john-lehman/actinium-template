@@ -1,6 +1,6 @@
-pub mod db;
 pub mod tls;
 pub mod scopes;
+pub mod outbound;
 pub mod middleware;
 pub mod cryptography;
 
@@ -12,11 +12,11 @@ pub async fn server(
     key_file: Option<&str>,
 ) -> Result<(), Box<dyn std::error::Error>> {
     use actix_web::*;
-    let repository = db::from_env().await?;
+    let driver = outbound::from_env().await?;
     let tls: bool = certificate_file.is_some() && key_file.is_some();
     let server = HttpServer::new(move || {
         App::new()
-            .app_data(web::Data::from(repository.clone()))
+            .app_data(web::Data::from(driver.clone()))
             .wrap(actix_cors::Cors::default())
             .wrap(crate::middleware::https::RedirectHTTPS::enabled(tls))
             .service(actix_files::Files::new("/", "./static")
